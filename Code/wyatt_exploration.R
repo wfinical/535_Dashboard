@@ -36,12 +36,12 @@ unique(forest$entity)
 #dygraph of deforestation in brazil
 library(dygraphs)
 brazil_loss %>% 
-  mutate(agriculture = cumsum(commercial_crops + pasture + tree_plantations_including_palm), 
-         infrastructure = cumsum(flooding_due_to_dams + other_infrastructure + roads), 
-         lumber = cumsum(selective_logging + small_scale_clearing), 
-         mining = cumsum(mining), 
-         fire = cumsum(fire), 
-         natural_distubrances = cumsum(natural_disturbances)) %>% 
+  mutate(agriculture = (cumsum(commercial_crops + pasture + tree_plantations_including_palm)/1000000), 
+         infrastructure = (cumsum(flooding_due_to_dams + other_infrastructure + roads)/1000000), 
+         lumber = (cumsum(selective_logging + small_scale_clearing)/1000000), 
+         mining = (cumsum(mining)/1000000), 
+         fire = (cumsum(fire)/1000000), 
+         natural_distubrances = (cumsum(natural_disturbances)/1000000)) %>% 
   select(year, agriculture, infrastructure, lumber, mining, fire, natural_disturbances) %>% 
   dygraph(main = "Cumulative Deforestation in Brazil",x = "Year", y = "Forest Area Lost (Hectares)") %>% 
   dyRangeSelector() %>% 
