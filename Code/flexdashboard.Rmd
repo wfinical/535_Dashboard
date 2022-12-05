@@ -52,7 +52,7 @@ brazil_loss %>%
          `Natural Disturbances`) %>% 
   dygraph(main = "Cumulative Deforestation by Industry - Brazil",
           x = "Year", 
-          y = "Forest Area Lost (Hectares)") %>% 
+          y = "Forest Area Lost (million Hectares)") %>% 
   dyRangeSelector() %>% 
   dyOptions(stackedGraph = TRUE) %>% 
   dyLegend(show = "follow")
