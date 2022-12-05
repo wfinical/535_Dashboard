@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Deforestation"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -17,7 +17,6 @@ veg_oil <- read_csv("Data/vegetable_oil.csv")
 ```
 Inputs {.sidebar}
 -------------------------------------
-
 ```{r}
 
 ```
@@ -32,10 +31,10 @@ Row {data-height=500}
 
 ```
 
-Row {data-height=500}
+Row {data-height=500, .tabset .tabset-fade}
 -----------------------------------------------------------------------
 
-### Chart B
+### Brazil Deforestation
 
 ```{r}
 library(dygraphs)
