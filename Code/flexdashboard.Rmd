@@ -2,15 +2,22 @@
 title: "Untitled"
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns
+    orientation: rows
     vertical_layout: fill
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
 ```
+Inputs {.sidebar}
+-------------------------------------
 
-Column {data-width=650}
+```{r}
+
+```
+
+
+Row {data-height=650}
 -----------------------------------------------------------------------
 
 ### Chart A
@@ -19,7 +26,7 @@ Column {data-width=650}
 
 ```
 
-Column {data-width=350}
+Row {data-height=350}
 -----------------------------------------------------------------------
 
 ### Chart B
