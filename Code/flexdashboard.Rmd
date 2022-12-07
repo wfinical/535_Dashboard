@@ -9,11 +9,12 @@ output:
 ```{r setup, include=FALSE}
 library(flexdashboard)
 library(tidyverse)
-forest <- read_csv("Data/forest.csv")
-forest_area <- read_csv("Data/forest_area.csv")
-brazil_loss <- read_csv("Data/brazil_loss.csv")
-soybean_use <- read_csv("Data/soybean_use.csv")
-veg_oil <- read_csv("Data/vegetable_oil.csv")
+library(plotly)
+forest <- read_csv("../Data/forest.csv")
+forest_area <- read_csv("../Data/forest_area.csv")
+brazil_loss <- read_csv("../Data/brazil_loss.csv")
+soybean_use <- read_csv("../Data/soybean_use.csv")
+veg_oil <- read_csv("../Data/vegetable_oil.csv")
 ```
 
 Global Deforestation
@@ -39,24 +40,29 @@ Row {data-height=500}
 ### Plot 1
 
 ```{r}
-library(dygraphs)
-brazil_loss %>% 
-  mutate(Agriculture = (cumsum(commercial_crops + pasture + 
-                                 tree_plantations_including_palm)/1000000), 
-         Infrastructure = (cumsum(flooding_due_to_dams + 
-                                    other_infrastructure + roads)/1000000), 
-         Lumber = (cumsum(selective_logging + small_scale_clearing)/1000000), 
-         Mining = (cumsum(mining)/1000000), 
-         Fire = (cumsum(fire)/1000000), 
-         `Natural Disturbances` = I(cumsum(natural_disturbances)/1000000)) %>% 
-  select(year, Agriculture, Infrastructure, Lumber, Mining, Fire, 
-         `Natural Disturbances`) %>% 
-  dygraph(main = "Cumulative Deforestation by Industry - Brazil",
-          x = "Year", 
-          y = "Forest Area Lost (million Hectares)") %>% 
-  dyRangeSelector() %>% 
-  dyOptions(stackedGraph = TRUE) %>% 
-  dyLegend(show = "follow")
+usa <- forest_area %>%
+  filter(code == "USA") %>%
+  mutate(pct_change = (forest_area/lag(forest_area) - 1) * 100)
+usa$forest_area <- round(usa$forest_area, 1)
+
+usa_plot <- usa %>%
+  plot_ly(
+    domain = list(x = c(0, 1), y = c(0, 1)),
+    value = ~forest_area,
+    title = list(text = "United States Forest Area 1990-2020"),
+    frame = ~year,
+    type = "indicator",
+    mode = "gauge+number",
+    gauge = list(axis =list(range = list(NULL, 20)),
+                 threshold = list(
+                   line = list(color = "red", width = 4),
+                   thickness = 0.75,
+                   value = 7.1)))
+
+usa_plot <- usa_plot %>%
+  layout(margin = list(l=20,r=30))
+
+usa_plot
 ```
 
 ### Plot2
