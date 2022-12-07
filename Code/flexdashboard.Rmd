@@ -15,12 +15,14 @@ brazil_loss <- read_csv("Data/brazil_loss.csv")
 soybean_use <- read_csv("Data/soybean_use.csv")
 veg_oil <- read_csv("Data/vegetable_oil.csv")
 ```
+
+Global Deforestation
+=======================================================================
 Inputs {.sidebar}
 -------------------------------------
 ```{r}
 
 ```
-
 
 Row {data-height=500}
 -----------------------------------------------------------------------
@@ -31,10 +33,10 @@ Row {data-height=500}
 
 ```
 
-Row {data-height=500, .tabset .tabset-fade}
+Row {data-height=500}
 -----------------------------------------------------------------------
 
-### Brazil Deforestation
+### Plot 1
 
 ```{r}
 library(dygraphs)
@@ -57,9 +59,39 @@ brazil_loss %>%
   dyLegend(show = "follow")
 ```
 
-### Chart C
+### Plot2
 
 ```{r}
+plot(iris)
+```
 
+### Plot3
+
+```{r}
+plot(mtcars)
+```
+
+Brazil Deforestation
+==========================================================================
+
+```{r}
+library(dygraphs)
+brazil_loss %>% 
+  mutate(Agriculture = (cumsum(commercial_crops + pasture + 
+                                 tree_plantations_including_palm)/1000000), 
+         Infrastructure = (cumsum(flooding_due_to_dams + 
+                                    other_infrastructure + roads)/1000000), 
+         Lumber = (cumsum(selective_logging + small_scale_clearing)/1000000), 
+         Mining = (cumsum(mining)/1000000), 
+         Fire = (cumsum(fire)/1000000), 
+         `Natural Disturbances` = I(cumsum(natural_disturbances)/1000000)) %>% 
+  select(year, Agriculture, Infrastructure, Lumber, Mining, Fire, 
+         `Natural Disturbances`) %>% 
+  dygraph(main = "Cumulative Deforestation by Industry - Brazil",
+          x = "Year", 
+          y = "Forest Area Lost (million Hectares)") %>% 
+  dyRangeSelector() %>% 
+  dyOptions(stackedGraph = TRUE) %>% 
+  dyLegend(show = "follow")
 ```
 
