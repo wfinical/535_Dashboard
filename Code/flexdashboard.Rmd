@@ -15,6 +15,11 @@ forest_area <- read_csv("../Data/forest_area.csv")
 brazil_loss <- read_csv("../Data/brazil_loss.csv")
 soybean_use <- read_csv("../Data/soybean_use.csv")
 veg_oil <- read_csv("../Data/vegetable_oil.csv")
+
+forest_all <- forest %>%
+  full_join(forest_area, by = c("entity","code","year"))
+
+options(scipen = 999)
 ```
 
 Global Deforestation
@@ -31,7 +36,55 @@ Row {data-height=500}
 ### Chart A
 
 ```{r}
+globe_df <- forest_all %>% 
+  filter(forest_all$entity != "World" & !is.na(forest_all$code)) %>% 
+  rename(`Percent of Global Forest` = forest_area,
+         `Net Change in Forest` = net_forest_conversion,
+         Year = year)
 
+fig1 <- plot_geo() %>%
+  add_trace(data = globe_df,
+            z = ~`Percent of Global Forest`,
+            text = globe_df$entity, 
+            hovertemplate = "%{text}: %{z:.2r}%", 
+            locations = globe_df$code,
+            frame = ~Year,
+            zauto = FALSE,
+            zmax = 20,
+            colors = "YlGn") %>%
+  layout(geo = list(showocean = TRUE,
+                    showland = TRUE,
+                    showlakes = TRUE,
+                    oceancolor = 'aliceblue',
+                    landcolor = 'grey',
+                    lakecolor = 'blue',
+                    projection = list(type = "orthographic")),
+         showlegend = TRUE)
+
+
+fig2 <- plot_geo() %>%
+  add_trace(data = globe_df,
+            z = ~`Net Change in Forest`,
+            text = globe_df$entity, 
+            hovertemplate = "%{text}: %{z:.2s}",
+            locations = globe_df$code,
+            frame = ~Year,
+            zauto = FALSE,
+            zmax = 2500000,
+            zmid = 0,
+            zmin = -4000000,
+            colors = "RdYlGn") %>%
+  layout(geo = list(showocean = TRUE,
+                    showland = TRUE,
+                    showlakes = TRUE,
+                    oceancolor = 'aliceblue',
+                    landcolor = 'grey',
+                    lakecolor = 'blue',
+                    projection = list(type = "orthographic")),
+         showlegend = TRUE)
+         
+
+subplot(fig1, fig2)
 ```
 
 Row {data-height=500}
