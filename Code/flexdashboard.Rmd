@@ -52,7 +52,7 @@ References:
 Hannah Ritchie and Max Roser (2021) - "Forests and Deforestation". Published online at OurWorldInData.org. Retrieved from: 'https://ourworldindata.org/forests-and-deforestation' [Online Resource]
 
 
-Row {data-height=485}
+Row {data-height=500}
 -----------------------------------------------------------------------
 
 ### Percent of Global Forest Area
@@ -118,7 +118,7 @@ net_globe <- plot_geo() %>%
 net_globe
 ```
 
-Row {data-height=515}
+Row {data-height=500}
 -----------------------------------------------------------------------
 
 ### Percentage of Global Forest Area
