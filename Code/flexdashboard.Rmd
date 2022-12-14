@@ -58,7 +58,7 @@ Hannah Ritchie and Max Roser (2021) - "Forests and Deforestation". Published onl
 Row {data-height=500}
 -----------------------------------------------------------------------
 
-### Chart A
+### Percent of Global Forest Area
 
 ```{r}
 globe_df <- forest_all %>% 
@@ -86,7 +86,13 @@ fig1 <- plot_geo() %>%
                     projection = list(type = "orthographic")),
          showlegend = TRUE)
 
+fig1
+```
 
+
+### Net Change in Forest Area
+
+```{r}
 fig2 <- plot_geo() %>%
   add_trace(data = globe_df,
             z = ~`Net Change in Forest`,
@@ -108,14 +114,14 @@ fig2 <- plot_geo() %>%
                     projection = list(type = "orthographic")),
          showlegend = TRUE)
          
-
-subplot(fig1, fig2)
+fig2
+#subplot(fig1, fig2)
 ```
 
 Row {data-height=500}
 -----------------------------------------------------------------------
 
-### Plot 1
+### Percentage of Global Forest Area
 
 ```{r}
 usa <- forest_area %>%
@@ -127,7 +133,7 @@ usa_plot <- usa %>%
   plot_ly(
     domain = list(x = c(0, 1), y = c(0, 1)),
     value = ~forest_area,
-    title = list(text = "United States Forest Area 1990-2020"),
+    title = list(text = "U.S.:1990-2020"),
     frame = ~year,
     type = "indicator",
     mode = "gauge+number",
@@ -143,7 +149,7 @@ usa_plot <- usa_plot %>%
 usa_plot
 ```
 
-### Plot2
+### Percentage of Global Forest Area
 
 ```{r}
 chn <- forest_area %>%
@@ -155,7 +161,7 @@ china_plot <- chn %>%
   plot_ly(
     domain = list(x = c(0, 1), y = c(0, 1)),
     value = ~forest_area,
-    title = list(text = "China Forest Area 1990-2020"),
+    title = list(text = "China:1990-2020"),
     frame = ~year,
     type = "indicator",
     mode = "gauge+number",
@@ -171,7 +177,7 @@ china_plot <- china_plot %>%
 china_plot
 ```
 
-### Plot3
+### Percentage of Global Forest Area
 
 ```{r}
 bra <- forest_area %>%
@@ -183,7 +189,7 @@ brazil_plot <- bra %>%
   plot_ly(
     domain = list(x = c(0, 1), y = c(0, 1)),
     value = ~forest_area,
-    title = list(text = "Brazil Forest Area 1990-2020"),
+    title = list(text = "Brazil:1990-2020"),
     frame = ~year,
     type = "indicator",
     mode = "gauge+number",
