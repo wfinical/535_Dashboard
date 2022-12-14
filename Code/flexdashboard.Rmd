@@ -26,6 +26,31 @@ Global Deforestation
 =======================================================================
 Inputs {.sidebar}
 -------------------------------------
+Welcome to our flexdashboard! 
+
+This dashboard is displaying information about deforestation. You'll notice there 
+are two tabs - one for information about global deforestation, and the other is 
+specific to Brazil. 
+
+All data used for this dashboard comes from "Our World in Data," more specifically 
+the "Forests and Deforestation" group of datasets curated by Hannah Ritchie and 
+Max Roser. These datasets include information about the global distribution of 
+forests, deforestation and forest losses, drivers of deforestation, data on the production of palm oil and soy, as well as data about afforestation or the gain 
+of forest area. 
+
+In our exploration of the data, we decided to highlight three different aspects. 
+Our first element explores the distribution of global forest area and 
+how that forest area has changed between 1990 and 2020. Our second group of plots 
+dive deeper into this concept by illustrating the change in forest area experienced 
+by three select countries (the United States, China, and Brazil) which can be compared.
+Finally, our last plot, found on the second tab, illustrates the specific drivers 
+of deforestation in Brazil across years and in a cumulative fashion. 
+
+All elements of our dashboard are interactive - enjoy! 
+
+References: 
+Hannah Ritchie and Max Roser (2021) - "Forests and Deforestation". Published online at OurWorldInData.org. Retrieved from: 'https://ourworldindata.org/forests-and-deforestation' [Online Resource]
+
 ```{r}
 
 ```
