@@ -10,16 +10,16 @@ output:
 library(flexdashboard)
 library(tidyverse)
 library(plotly)
+library(dygraphs)
+
+options(scipen = 999)
+
 forest <- read_csv("../Data/forest.csv")
 forest_area <- read_csv("../Data/forest_area.csv")
 brazil_loss <- read_csv("../Data/brazil_loss.csv")
-soybean_use <- read_csv("../Data/soybean_use.csv")
-veg_oil <- read_csv("../Data/vegetable_oil.csv")
 
 forest_all <- forest %>%
   full_join(forest_area, by = c("entity","code","year"))
-
-options(scipen = 999)
 ```
 
 Global Deforestation
@@ -51,82 +51,84 @@ All elements of our dashboard are interactive - enjoy!
 References: 
 Hannah Ritchie and Max Roser (2021) - "Forests and Deforestation". Published online at OurWorldInData.org. Retrieved from: 'https://ourworldindata.org/forests-and-deforestation' [Online Resource]
 
-```{r}
 
-```
-
-Row {data-height=500}
+Row {data-height=485}
 -----------------------------------------------------------------------
 
 ### Percent of Global Forest Area
 
-```{r}
+```{r globe_percent}
 globe_df <- forest_all %>% 
   filter(forest_all$entity != "World" & !is.na(forest_all$code)) %>% 
-  rename(`Percent of Global Forest` = forest_area,
-         `Net Change in Forest` = net_forest_conversion,
+  rename(Percent = forest_area,
+         Hectares = net_forest_conversion,
          Year = year)
 
-fig1 <- plot_geo() %>%
+percent_globe <- plot_geo() %>%
   add_trace(data = globe_df,
-            z = ~`Percent of Global Forest`,
+            z = ~Percent,
             text = globe_df$entity, 
             hovertemplate = "%{text}: %{z:.2r}%", 
             locations = globe_df$code,
             frame = ~Year,
             zauto = FALSE,
             zmax = 20,
-            colors = "YlGn") %>%
+            colors = "YlGn",
+            name = "" # Remove Trace label
+            ) %>%
   layout(geo = list(showocean = TRUE,
                     showland = TRUE,
                     showlakes = TRUE,
                     oceancolor = 'aliceblue',
-                    landcolor = 'grey',
-                    lakecolor = 'blue',
+                    landcolor = 'wheat',
+                    lakecolor = 'lightskyblue1',
                     projection = list(type = "orthographic")),
          showlegend = TRUE)
 
-fig1
+percent_globe
 ```
 
 
 ### Net Change in Forest Area
 
-```{r}
-fig2 <- plot_geo() %>%
+```{r globe_net}
+net_globe <- plot_geo() %>%
   add_trace(data = globe_df,
-            z = ~`Net Change in Forest`,
+            z = ~ Hectares,
             text = globe_df$entity, 
             hovertemplate = "%{text}: %{z:.2s}",
             locations = globe_df$code,
             frame = ~Year,
             zauto = FALSE,
-            zmax = 2500000,
+            zmax = 4000000,
             zmid = 0,
             zmin = -4000000,
-            colors = "RdYlGn") %>%
+            colors = "RdYlGn",
+            name = "" # Remove Trace label
+            ) %>%
   layout(geo = list(showocean = TRUE,
                     showland = TRUE,
                     showlakes = TRUE,
                     oceancolor = 'aliceblue',
-                    landcolor = 'grey',
-                    lakecolor = 'blue',
+                    landcolor = 'wheat',
+                    lakecolor = 'lightskyblue1',
                     projection = list(type = "orthographic")),
          showlegend = TRUE)
          
-fig2
-#subplot(fig1, fig2)
+net_globe
 ```
 
-Row {data-height=500}
+Row {data-height=515}
 -----------------------------------------------------------------------
 
 ### Percentage of Global Forest Area
 
-```{r}
+```{r usa}
 usa <- forest_area %>%
   filter(code == "USA") %>%
-  mutate(pct_change = (forest_area/lag(forest_area) - 1) * 100)
+  mutate(pct_change = (forest_area/lag(forest_area) - 1) * 100) %>% 
+  rename(Year = year)
+
 usa$forest_area <- round(usa$forest_area, 1)
 
 usa_plot <- usa %>%
@@ -134,7 +136,7 @@ usa_plot <- usa %>%
     domain = list(x = c(0, 1), y = c(0, 1)),
     value = ~forest_area,
     title = list(text = "U.S.:1990-2020"),
-    frame = ~year,
+    frame = ~Year,
     type = "indicator",
     mode = "gauge+number",
     gauge = list(axis =list(range = list(NULL, 20)),
@@ -151,10 +153,12 @@ usa_plot
 
 ### Percentage of Global Forest Area
 
-```{r}
+```{r china}
 chn <- forest_area %>%
   filter(code == "CHN") %>%
-  mutate(pct_change = (forest_area/lag(forest_area) - 1) * 100)
+  mutate(pct_change = (forest_area/lag(forest_area) - 1) * 100)%>% 
+  rename(Year = year)
+
 chn$forest_area <- round(chn$forest_area, 1)
 
 china_plot <- chn %>%
@@ -162,7 +166,7 @@ china_plot <- chn %>%
     domain = list(x = c(0, 1), y = c(0, 1)),
     value = ~forest_area,
     title = list(text = "China:1990-2020"),
-    frame = ~year,
+    frame = ~Year,
     type = "indicator",
     mode = "gauge+number",
     gauge = list(axis =list(range = list(NULL, 20)),
@@ -179,10 +183,12 @@ china_plot
 
 ### Percentage of Global Forest Area
 
-```{r}
+```{r brazil}
 bra <- forest_area %>%
   filter(code == "BRA") %>%
-  mutate(pct_change = (forest_area/lag(forest_area) - 1) * 100)
+  mutate(pct_change = (forest_area/lag(forest_area) - 1) * 100) %>% 
+  rename(Year = year)
+
 bra$forest_area <- round(bra$forest_area, 1)
 
 brazil_plot <- bra %>%
@@ -190,7 +196,7 @@ brazil_plot <- bra %>%
     domain = list(x = c(0, 1), y = c(0, 1)),
     value = ~forest_area,
     title = list(text = "Brazil:1990-2020"),
-    frame = ~year,
+    frame = ~Year,
     type = "indicator",
     mode = "gauge+number",
     gauge = list(axis =list(range = list(NULL, 20)),
@@ -208,8 +214,8 @@ brazil_plot
 Brazil Deforestation
 ==========================================================================
 
-```{r}
-library(dygraphs)
+```{r brazil_details}
+
 brazil_loss %>% 
   mutate(Agriculture = (cumsum(commercial_crops + pasture + 
                                  tree_plantations_including_palm)/1000000), 
@@ -227,5 +233,6 @@ brazil_loss %>%
   dyRangeSelector() %>% 
   dyOptions(stackedGraph = TRUE) %>% 
   dyLegend(show = "follow")
+
 ```
 
