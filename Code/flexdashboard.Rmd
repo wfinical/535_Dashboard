@@ -33,7 +33,7 @@ Inputs {.sidebar}
 Row {data-height=500}
 -----------------------------------------------------------------------
 
-### Chart A
+### Percent of Global Forest Area
 
 ```{r}
 globe_df <- forest_all %>% 
@@ -61,7 +61,13 @@ fig1 <- plot_geo() %>%
                     projection = list(type = "orthographic")),
          showlegend = TRUE)
 
+fig1
+```
 
+
+### Net Change in Forest Area
+
+```{r}
 fig2 <- plot_geo() %>%
   add_trace(data = globe_df,
             z = ~`Net Change in Forest`,
@@ -83,8 +89,8 @@ fig2 <- plot_geo() %>%
                     projection = list(type = "orthographic")),
          showlegend = TRUE)
          
-
-subplot(fig1, fig2)
+fig2
+#subplot(fig1, fig2)
 ```
 
 Row {data-height=500}
