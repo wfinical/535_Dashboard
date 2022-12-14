@@ -121,13 +121,57 @@ usa_plot
 ### Plot2
 
 ```{r}
-plot(iris)
+chn <- forest_area %>%
+  filter(code == "CHN") %>%
+  mutate(pct_change = (forest_area/lag(forest_area) - 1) * 100)
+chn$forest_area <- round(chn$forest_area, 1)
+
+china_plot <- chn %>%
+  plot_ly(
+    domain = list(x = c(0, 1), y = c(0, 1)),
+    value = ~forest_area,
+    title = list(text = "China Forest Area 1990-2020"),
+    frame = ~year,
+    type = "indicator",
+    mode = "gauge+number",
+    gauge = list(axis =list(range = list(NULL, 20)),
+                 threshold = list(
+                   line = list(color = "red", width = 4),
+                   thickness = 0.75,
+                   value = 3.7)))
+
+china_plot <- china_plot %>%
+  layout(margin = list(l=20,r=30))
+
+china_plot
 ```
 
 ### Plot3
 
 ```{r}
-plot(mtcars)
+bra <- forest_area %>%
+  filter(code == "BRA") %>%
+  mutate(pct_change = (forest_area/lag(forest_area) - 1) * 100)
+bra$forest_area <- round(bra$forest_area, 1)
+
+brazil_plot <- bra %>%
+  plot_ly(
+    domain = list(x = c(0, 1), y = c(0, 1)),
+    value = ~forest_area,
+    title = list(text = "Brazil Forest Area 1990-2020"),
+    frame = ~year,
+    type = "indicator",
+    mode = "gauge+number",
+    gauge = list(axis =list(range = list(NULL, 20)),
+      threshold = list(
+        line = list(color = "red", width = 4),
+        thickness = 0.75,
+        value = 13.9)))
+
+brazil_plot <- brazil_plot %>%
+  layout(margin = list(l=20,r=30))
+
+brazil_plot
 ```
 
 Brazil Deforestation
