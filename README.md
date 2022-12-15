@@ -4,3 +4,7 @@ This repository contains a dashboard that was created as a final project for the
 
 Datasets for the dashboard can be found here:
 https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-04-06/readme.md
+
+![First Page of Dashboard](Code/Screenshots/First_Page.png)
+![Second Page of Dashboard](Code/Screenshots/Second_Page.png)
+

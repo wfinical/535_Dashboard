@@ -46,7 +46,7 @@ brazil_loss %>%
   dygraph(main = "Cumulative Deforestation in Brazil",x = "Year", y = "Forest Area Lost (Hectares)") %>% 
   dyRangeSelector() %>% 
   dyOptions(stackedGraph = TRUE) %>% 
-  dyLegend(show = "follow") %>% 
+  dyLegend(show = "follow")
 #Can just change the column names when ready to put into the dashboard
 
 
